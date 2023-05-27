@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    # "/Users/igorgorovenko/Projects/Python/movie_library/movies", TODO: указать путь
+    "movies",
 ]
 
 MIDDLEWARE = [

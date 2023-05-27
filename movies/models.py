@@ -17,7 +17,7 @@ class Category(models.Model):
         verbose_name_plural = "Категории"
 
 
-class Actor(models.Nodel):
+class Actor(models.Model):
     """Актеры и режиссеры"""
 
     name = models.CharField("Имя", max_length=100)
@@ -124,7 +124,7 @@ class Rating(models.Model):
     star = models.ForeignKey(
         RatingStar, on_delete=models.CASCADE, verbose_name="звезда"
     )
-    movie = models.ForeignKey(Movie, on_delete=models.CharField, verbose_name="фильм")
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE, verbose_name="фильм")
 
     def __str__(self):
         return f"{self.star} - {self.movie}"
