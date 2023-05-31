@@ -97,6 +97,8 @@ class MovieShotsAdmin(admin.ModelAdmin):
 admin.site.register(RatingStar)
 
 
+admin.site.site_title = "Django Movies"
+admin.site.site_header = "Django Movies"
 
 
 
