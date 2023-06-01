@@ -1,7 +1,6 @@
-from typing import Any, Dict
-from django.db.models.query import QuerySet
 from django.db.models import Q
-from django.shortcuts import render, redirect
+from django.http import JsonResponse, HttpResponse
+from django.shortcuts import redirect
 from django.views.generic import ListView, DetailView
 from django.views.generic.base import View
 
@@ -16,7 +15,6 @@ class GenreYear():
     
     def get_years(self):
         return Movie.objects.filter(draft=False).values('year')
-
 
 
 class MoviesView(GenreYear, ListView):
@@ -60,3 +58,38 @@ class FilterMoviesView(GenreYear, ListView):
             Q(genres__in=self.request.GET.getlist('genre'))
         )
         return queryset
+    
+# class FilterMoviesView(GenreYear, ListView):
+    """Фильтр фильмов"""
+    paginate_by = 5
+
+    def get_queryset(self):
+        queryset = Movie.objects.filter(
+            Q(year__in=self.request.GET.getlist("year")) |
+            Q(genres__in=self.request.GET.getlist("genre"))
+        ).distinct()
+        return queryset
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context["year"] = ''.join([f"year={x}&" for x in self.request.GET.getlist("year")])
+        context["genre"] = ''.join([f"genre={x}&" for x in self.request.GET.getlist("genre")])
+        return context
+
+
+
+    
+class JsonFilterMoviesView(ListView):
+    """Фильтр фильмов в json"""
+
+    def get_queryset(self):
+        queryset = Movie.objects.filter(
+            Q(year__in=self.request.GET.getlist("year")) |
+            Q(genres__in=self.request.GET.getlist("genre"))
+        ).distinct().values("title", "tagline", "url", "poster")
+        return queryset
+
+    def get(self, request, *args, **kwargs):
+        queryset = list(self.get_queryset())
+        return JsonResponse({"movies": queryset}, safe=False)
+
