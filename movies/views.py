@@ -3,17 +3,27 @@ from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView
 from django.views.generic.base import View
 
-from .models import Movie, Category, Actor
+from .models import Movie, Category, Actor, Genre
 from .forms import ReviewForms
 
 
-class MoviesView(ListView):
+class GenreYear():
+    """Жанры и года выхода фильмов"""
+    def get_genres(self):
+        return Genre.objects.all()
+    
+    def get_years(self):
+        return Movie.objects.filter(draft=False).values('year')
+
+
+
+class MoviesView(GenreYear, ListView):
     """Список фильмов"""
     model = Movie
     queryset = Movie.objects.filter(draft=False)
 
 
-class MovieDetailView(DetailView):
+class MovieDetailView(GenreYear, DetailView):
     """Полное описание фильма"""
     model = Movie
     slug_field = 'url'
@@ -33,7 +43,7 @@ class AddReview(View):
         return redirect(movie.get_absolute_url())
     
 
-class ActorView(DetailView):
+class ActorView(GenreYear, DetailView):
     """Вывод информации о актере"""
     model = Actor
     template_name = 'movies/actor.html'
