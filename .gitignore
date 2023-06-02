@@ -1,5 +1,8 @@
 .vscode
 .DS_Store
+.isort.cfg
+.mypy.ini
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
