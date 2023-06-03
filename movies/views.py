@@ -130,7 +130,9 @@ class Search(ListView):
         return context
     
 
-def func(request):
-    return render(request, 'base.html')
+def func(request, *args, **kwargs):
+    print(kwargs)
+    print(args)
+    return render(request, 'base.html', {'example_key': 'result_example'})
 
     
