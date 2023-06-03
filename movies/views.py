@@ -1,13 +1,11 @@
-from typing import Any, Dict
-
 from django.db.models import Q
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.views.generic import DetailView, ListView
 from django.views.generic.base import View
 
 from .forms import RatingForm, ReviewForm
-from .models import Actor, Genre, Movie, Rating, Reviews
+from .models import Actor, Genre, Movie, Rating
 
 
 class GenreYear():
@@ -130,4 +128,9 @@ class Search(ListView):
         context = super().get_context_data(*args, **kwargs)
         context['q'] = f'q={self.request.GET.get("q")}&'
         return context
+    
+
+def func(request):
+    return render(request, 'base.html')
+
     
