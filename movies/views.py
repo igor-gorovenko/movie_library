@@ -10,6 +10,7 @@ from .models import Actor, Genre, Movie, Rating
 
 class GenreYear():
     """Жанры и года выхода фильмов"""
+
     def get_genres(self):
         return Genre.objects.all()
     
@@ -128,11 +129,5 @@ class Search(ListView):
         context = super().get_context_data(*args, **kwargs)
         context['q'] = f'q={self.request.GET.get("q")}&'
         return context
-    
-
-def func(request, *args, **kwargs):
-    print(kwargs)
-    print(args)
-    return render(request, 'base.html', {'example_key': 'result_example'})
 
     
