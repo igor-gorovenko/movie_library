@@ -130,4 +130,5 @@ class Search(ListView):
         context['q'] = f'q={self.request.GET.get("q")}&'
         return context
 
-    
+def func(request, blabla, pk):
+    return render(request, 'template_name.html', {'blabla': blabla, 'pk': pk})
